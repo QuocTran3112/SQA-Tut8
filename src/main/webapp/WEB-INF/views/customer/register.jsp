@@ -128,52 +128,6 @@ footer a {
 
 	</header>
 	<main class="d-flex w-100">
-		<%--     	${message } <br>
-    	 <div>
-    	 <c:forEach var = "employee" items="${employees}">
-         Nhân viên: ${employee.maNv } - ${employee.tenNv } <br>
-         </c:forEach>
-    	 </div>
-        <fieldset class="form_center">
-        <legend class="legend">Register</legend>
-        <form action="${base }/contact" method="get" id="form1">
-        <div class='description'>Create your account. It's free and only takes a minute</div>
-        <div class="register">
-            <div class="firstname">
-                <input type="text" name="firstName" id="firstName" placeholder="First Name" style="height: 25px;">
-            </div>
-            
-            <div class="lastname">
-                <input type="text" name="lastName" id="lastName" placeholder="Last Name" style="height: 25px;">
-            </div>
-
-            <div class="email">
-                <input type="email" name="email" placeholder="Email" style="height: 25px; width: 340px;">
-            </div>
-
-            <div class="password">
-                <input type="password" name="password" placeholder="Password" style="height: 25px; width: 340px;">
-            </div>
-
-            <div class="confirmPassword">
-                <input type="password" name="confirmPassword" placeholder="Confirm Password" style="height: 25px; width: 340px;">
-            </div>
-
-            <div class="termOfUse">
-                <input type="checkbox"> 
-                <p>I accept the <a href="">Terms of use</a> & <a href="">Privacy Policy</a>.</p>
-            </div>
-
-                <div class="submit">
-                <button type="submit" form="form1" value="Submit" style="border: 0; color: white; font-size: 15px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; background-color: rgb(20, 208, 250); width: 300px; height: 30px; border-radius: 5px;">
-                    Sign up now
-                </button>
-            </div>
-        </div>
-        </form>
-        </fieldset> --%>
-
-
 		<div class="container d-flex flex-column">
 			<div class="row vh-100">
 				<div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
@@ -195,7 +149,7 @@ footer a {
 											<sf:input path="name"
 												class="form-control form-control-lg" type="text"
 												name="username" id="idUserName"
-												placeholder="Enter your name" />
+												placeholder="Enter your name" required="required"/>
 										</div>
 										
 										<div>
@@ -212,25 +166,31 @@ footer a {
 											<label class="form-label">Password</label>
 											<sf:input path="password"
 												class="form-control form-control-lg" type="password"
-												name="password" id="idPassword" placeholder="Enter password" />
+												name="password" id="idPassword" placeholder="Enter password" required="required"/>
 										</div>
 										<div class="mb-3">
 											<label class="form-label">Confirm Password</label> <input
 												class="form-control form-control-lg" type="password"
-												name="cPassword" placeholder="Confirm password" />
+												name="cPassword" placeholder="Confirm password" required="required"/>
+											<c:if test="${passwordAttribute == false}">
+											    <h3>reconfirm the password</h3>
+											</c:if>
 										</div>
 										<div class="mb-3">
 											<label class="form-label">Phone</label>
 											<sf:input path="phone" class="form-control form-control-lg"
 												type="text" name="phone" id="idPhone"
-												placeholder="Enter your phone number" />
+												placeholder="Enter your phone number" required="required"/>
 										</div>
 										<div class="mb-3">
 											<label class="form-label">Address</label>
 											<sf:input path="shipping_address"
 												class="form-control form-control-lg" type="text"
 												name="address" id="idAddress"
-												placeholder="Enter your address" />
+												placeholder="Enter your address" required="required"/>
+										</div>
+										<div class="mb-3">
+										    <input type="checkbox" path="tOS" class="tOS" name="tOS" id="tOSID"/>Agree to terms and conditions
 										</div>
 										<div class="text-center mt-3">
 											<div class="submit">
@@ -248,45 +208,6 @@ footer a {
 				</div>
 			</div>
 		</div>
-
-		 <%-- <fieldset class="form_center">
-        <legend class="legend">Register</legend>
-        <form action="${base }/register" method="post" id="form">
-        <div class='description'>Create your account. It's free and only takes a minute</div>
-        <div class="register">
-            <div class="firstname">
-                <input name="firstname" id="idFirstname" type="text" placeholder="First Name" style="height: 25px;">
-            </div>
-            
-            <div class="lastname">
-                <input name="lastname" id="idLastname" type="text" placeholder="Last Name" style="height: 25px;">
-            </div>
-
-            <div class="email">
-                <input name="email" id="idEmail" type="email" placeholder="Email" style="height: 25px; width: 340px;">
-            </div>
-
-            <div class="password">
-                <input name="password" id="idPassword" type="password" placeholder="Password" style="height: 25px; width: 340px;">
-            </div>
-
-            <div class="confirmPassword">
-                <input name="cPassword" id="idCPassword" type="password" placeholder=Confirm Password style="height: 25px; width: 340px;">
-            </div>
-
-            <div class="termOfUse">
-                <input type="checkbox"> 
-                <p>I accept the <a href="">Terms of use</a> & <a href="">Privacy Policy</a>.</p>
-            </div>
-
-            <div class="submit">
-                <button type="submit" form="form" style="border: 0; color: white; font-size: 15px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; background-color: rgb(20, 208, 250); width: 300px; height: 30px; border-radius: 5px;">
-                    Sign up now
-                </button>
-            </div>
-        </div>
-        </form>
-        </fieldset> --%>
 	</main>
 
 	<footer>
@@ -294,5 +215,20 @@ footer a {
 			Already have an account? <a class="signIn" href="${base }/login">Log in</a>
 		</p>
 	</footer>
+
+	<script type="text/javascript">
+	    const element = document.getElementById("form1");
+	    element.addEventListener('submit', event => {
+	    	const tOSval = document.getElementById("tOSID").checked ;
+            if (tOSval == false) {
+            	event.preventDefault();
+                console.log("Hello!");
+                alert("You have to Agree to the terms and conditions");
+                }
+            else {
+                return true;
+            }
+	    })
+	</script>
 </body>
 </html>

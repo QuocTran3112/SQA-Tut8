@@ -50,23 +50,38 @@ public class RegisterController extends BaseController{
 	public String contact2(final Model model,
 						  final HttpServletRequest request,
 						  final HttpServletResponse response,
-						  final @ModelAttribute("userModel") Users user)
+						  final @ModelAttribute("userModel") Users user
+						  )
 		throws IOException {
-		
+
+
 		response.setContentType("text/html;charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
 
-		Integer defaultRole = 17;
-		
-		user.setPassword(new BCryptPasswordEncoder(4).encode(user.getPassword()));
-		userService.saveOrUpdate(user);
-		
-		//set users_roles
-		UsersRoles ur = new UsersRoles();
-		ur.setRole_id(defaultRole);
-		ur.setUser_id(user.getId());
-		urService.saveOrUpdate(ur);
-		
-		return "redirect:/login";
+		String tOS = request.getParameter("tOS");
+		System.out.println(tOS);
+
+		String password = request.getParameter("password");
+		String cPassword = request.getParameter("cPassword");
+
+		if (password.compareTo(cPassword)!=0) {
+			model.addAttribute("passwordAttribute", false);
+		}
+		else {
+			user.setPassword(new BCryptPasswordEncoder(4).encode(user.getPassword()));
+			userService.saveOrUpdate(user);
+
+			Integer defaultRole = 17;
+
+			//set users_roles
+			UsersRoles ur = new UsersRoles();
+			ur.setRole_id(defaultRole);
+			ur.setUser_id(user.getId());
+			urService.saveOrUpdate(ur);
+
+			return "customer/register";
+		}
+
+		return "customer/register";
 	}
 }
