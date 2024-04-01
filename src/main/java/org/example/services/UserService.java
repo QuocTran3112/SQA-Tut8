@@ -28,12 +28,12 @@ public class UserService extends BaseService<Users>{
 			// tìm kiếm theo title và description
 			if (!StringUtils.isEmpty(userSearch.getKeyword())) {
 				sql += " and (u.username like '%" + userSearch.getKeyword() + "%'" + 
-						     " or u.email '%" + userSearch.getKeyword() + "%'" + 
-						     " or u.phone '%" + userSearch.getKeyword() + "%')";
+								 " or u.email like '%" + userSearch.getKeyword() + "%')";
 			}
 		}
 
-		return super.getEntitiesByNativeSQL(sql, userSearch.getCurrentPage());
+        assert userSearch != null;
+        return super.getEntitiesByNativeSQL(sql, userSearch.getCurrentPage());
 	}
 	
 	

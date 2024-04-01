@@ -1,9 +1,12 @@
 package org.example.controller.customer;
 
+import com.sun.tools.jconsole.JConsoleContext;
 import org.example.controller.BaseController;
+import org.example.dto.UserSearch;
 import org.example.model.Role;
 import org.example.model.Users;
 import org.example.model.UsersRoles;
+import org.example.services.PagerData;
 import org.example.services.RoleService;
 import org.example.services.UserService;
 import org.example.services.UsersRolesService;
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 public class RegisterController extends BaseController{
@@ -58,14 +63,34 @@ public class RegisterController extends BaseController{
 		response.setContentType("text/html;charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
 
-		String tOS = request.getParameter("tOS");
-		System.out.println(tOS);
+		int status = (int) Math.round(Math.random()*100);
 
+		String username = request.getParameter("name");
+		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		String cPassword = request.getParameter("cPassword");
+		int page = 1;
 
-		if (password.compareTo(cPassword)!=0) {
+		UserSearch us = new UserSearch();
+		us.setCurrentPage(page);
+		us.setKeyword(username);
+		boolean isExist = userService.searchUser(us).getTotalItems() !=0 ;
+
+		System.out.println(isExist);
+		us.setKeyword(email);
+		boolean isExist1 = userService.searchUser(us).getTotalItems() != 0;
+
+        if (isExist) {
+			model.addAttribute("usernameAttribute", true);
+		}
+		else if (isExist1) {
+			model.addAttribute("emailAttribute", true);
+		}
+		else if (password.compareTo(cPassword)!=0) {
 			model.addAttribute("passwordAttribute", false);
+		}
+		else if (status < 50) {
+			System.out.println("Something went wrong, cannot sent email verification");
 		}
 		else {
 			user.setPassword(new BCryptPasswordEncoder(4).encode(user.getPassword()));

@@ -144,12 +144,16 @@ footer a {
 								<div class="m-sm-4">
 									<sf:form modelAttribute="userModel" action="${base }/register"
 										method="post" id="form1">
+
 										<div class="mb-3">
 											<label class="form-label">Username</label>
 											<sf:input path="name"
 												class="form-control form-control-lg" type="text"
 												name="username" id="idUserName"
 												placeholder="Enter your name" required="required"/>
+										        <c:if test="${usernameAttribute == true}">
+										            <h3>Username is already taken</h>
+										        </c:if>
 										</div>
 										
 										<div>
@@ -161,6 +165,9 @@ footer a {
 											<sf:input path="email" class="form-control form-control-lg"
 												type="email" name="email" id="idEmail"
 												placeholder="Enter your email" required="required"/>
+												<c:if test="${emailAttribute == true}">
+                                                	<h3>Email is already taken</h>
+                                                </c:if>
 										</div>
 										<div class="mb-3">
 											<label class="form-label">Password</label>
@@ -203,7 +210,6 @@ footer a {
 								</div>
 							</div>
 						</div>
-
 					</div>
 				</div>
 			</div>
